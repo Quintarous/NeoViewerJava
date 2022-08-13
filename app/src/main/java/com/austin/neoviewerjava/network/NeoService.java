@@ -1,5 +1,6 @@
 package com.austin.neoviewerjava.network;
 
+import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -10,5 +11,5 @@ public interface NeoService {
     int STARTING_PAGE = 0;
 
     @GET("neo/browse?api_key=TZIMsTB3ztsDc6fdqEyTqGtNy7Dr7Goqe5L1xvvC")
-    BrowseResponse neoBrowse(@Query("page") int page);
+    Call<BrowseResponse> neoBrowse(@Query("page") int page);
 }
