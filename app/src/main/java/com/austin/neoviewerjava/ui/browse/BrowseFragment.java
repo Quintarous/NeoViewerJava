@@ -14,9 +14,11 @@ import com.austin.neoviewerjava.databinding.FragmentBrowseBinding;
 import com.austin.neoviewerjava.network.NeoService;
 import com.austin.neoviewerjava.repository.NeoRepository;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+@AndroidEntryPoint
 public class BrowseFragment extends Fragment {
 
     private FragmentBrowseBinding binding;
@@ -31,13 +33,6 @@ public class BrowseFragment extends Fragment {
 
         final TextView textView = binding.textHome;
         browseViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-
-        final NeoService service = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(NeoService.BASE_URL)
-                .build()
-                .create(NeoService.class);
-        final NeoRepository repo = new NeoRepository(this.getContext(), service);
 
         return root;
     }

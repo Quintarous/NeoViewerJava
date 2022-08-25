@@ -4,12 +4,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class NeoResponse {
 
-    final int id;
-    final String name;
-    final String designation;
-    @SerializedName("nasa_jpl_url") final String jplUrl;
-    @SerializedName("is_potentially_hazardous_asteroid") final boolean hazardous;
-    @SerializedName("estimated_diameter") final DiameterData diameterData;
+    public final int id;
+    public final String name;
+    public final String designation;
+    @SerializedName("nasa_jpl_url") public final String jplUrl;
+    @SerializedName("is_potentially_hazardous_asteroid") public final boolean hazardous;
+    @SerializedName("estimated_diameter") public final DiameterData diameterData;
 
     public NeoResponse(
             int id,
