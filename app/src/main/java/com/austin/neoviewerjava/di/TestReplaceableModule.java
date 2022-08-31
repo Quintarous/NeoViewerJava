@@ -15,6 +15,7 @@ import dagger.hilt.InstallIn;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 import dagger.hilt.components.SingletonComponent;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
@@ -27,6 +28,7 @@ public class TestReplaceableModule {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(NeoService.BASE_URL)
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build()
                 .create(NeoService.class);
     }
