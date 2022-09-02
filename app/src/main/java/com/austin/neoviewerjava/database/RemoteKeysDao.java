@@ -15,9 +15,6 @@ public interface RemoteKeysDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertRemoteKeys(ArrayList<RemoteKeys> list);
 
-    @Query("SELECT * FROM RemoteKeys")
-    ArrayList<RemoteKeys> getAllRemoteKeys();
-
     @Query("SELECT * FROM RemoteKeys WHERE neoId = :id")
     Single<RemoteKeys> getRemoteKeysByNeoId(int id);
 

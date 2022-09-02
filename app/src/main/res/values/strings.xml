@@ -10,4 +10,18 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="diameter_label">Diameter</string>
+    <string name="feet_label">Feet</string>
+    <string name="miles_label">Miles</string>
+    <string name="meters_label">Meters</string>
+    <string name="kilometers_label">Kilometers</string>
+    <string name="neo_diameter_max_label">Max</string>
+    <string name="neo_diameter_min_label">Min</string>
+    <string name="neo_hazardous_label">Hazardous</string>
+    <string name="neo_designation_label">Designation</string>
+    <string name="neo_jpl_label">JPL Url</string>
+    <string name="neo_name_label">Name</string>
+    <string name="copy_jpl_url">Copy Url</string>
+    <string name="neo_content_description">near earth object click to expand</string>
+    <string name="url_copied_toast">Url copied!</string>
 </resources>

@@ -9,7 +9,7 @@ public class Neo {
     public final String name;
     public final String designation;
     public final String jplUrl;
-    public final boolean hazardous;
+    public final Boolean hazardous;
     public final Float kilometersMin;
     public final Float kilometersMax;
     public final Float metersMin;
@@ -47,5 +47,32 @@ public class Neo {
         this.milesMax = milesMax;
         this.feetMin = feetMin;
         this.feetMax = feetMax;
+    }
+
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || this.getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Neo neo = (Neo) obj;
+
+        return (this.id == neo.id && this.name.equals(neo.name) && this.hazardous == neo.hazardous
+        && this.jplUrl.equals(neo.jplUrl) && this.designation.equals(neo.designation)
+        && this.kilometersMin.equals(neo.kilometersMin) && this.kilometersMax.equals(neo.kilometersMax)
+        && this.metersMin.equals(neo.metersMin) && this.metersMax.equals(neo.metersMax)
+        && this.milesMin.equals(neo.milesMin) && this.milesMax.equals(neo.milesMax)
+        && this.feetMin.equals(neo.feetMin) && this.feetMax.equals(neo.feetMax));
+    }
+
+
+    @Override
+    public int hashCode() {
+        return this.id;
     }
 }
