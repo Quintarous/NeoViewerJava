@@ -24,4 +24,9 @@
     <string name="copy_jpl_url">Copy Url</string>
     <string name="neo_content_description">near earth object click to expand</string>
     <string name="url_copied_toast">Url copied!</string>
+    <string name="browse">Browse</string>
+    <string name="refresh">Refresh</string>
+    <string name="sort_by_date">Sort By Date</string>
+    <string name="retry">Retry</string>
+    <string name="network_error">Network Error!</string>
 </resources>

@@ -2,12 +2,16 @@ package com.austin.neoviewerjava.repository;
 
 import static com.austin.neoviewerjava.Util.processNeoResponses;
 
+import static io.reactivex.rxjava3.core.Single.error;
+import static io.reactivex.rxjava3.core.Single.just;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
 import androidx.paging.LoadType;
 import androidx.paging.PagingSource;
 import androidx.paging.PagingState;
+import androidx.paging.RemoteMediator;
 import androidx.paging.rxjava3.RxRemoteMediator;
 
 import com.austin.neoviewerjava.database.Neo;
@@ -18,6 +22,7 @@ import com.austin.neoviewerjava.database.RemoteKeysDao;
 import com.austin.neoviewerjava.network.BrowseResponse;
 import com.austin.neoviewerjava.network.NeoService;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -25,8 +30,12 @@ import java.util.concurrent.atomic.AtomicReference;
 import javax.inject.Inject;
 
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.SingleObserver;
+import io.reactivex.rxjava3.core.SingleSource;
+import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.functions.Function;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import retrofit2.HttpException;
 
 @OptIn(markerClass = androidx.paging.ExperimentalPagingApi.class)
 public class NeoRemoteMediator extends RxRemoteMediator<Integer, Neo> {
@@ -54,7 +63,7 @@ public class NeoRemoteMediator extends RxRemoteMediator<Integer, Neo> {
             case PREPEND:
                 Neo first = state.firstItemOrNull();
                 if (first == null) {
-                    return Single.just(new MediatorResult.Success(false));
+                    return just(new MediatorResult.Success(false));
                 }
                 rKey = remoteKeysDao.getRemoteKeysByNeoId(first.id);
                 break;
@@ -62,13 +71,13 @@ public class NeoRemoteMediator extends RxRemoteMediator<Integer, Neo> {
             case APPEND:
                 Neo last = state.lastItemOrNull();
                 if (last == null) {
-                    return Single.just(new MediatorResult.Success(false));
+                    return just(new MediatorResult.Success(false));
                 }
                 rKey = remoteKeysDao.getRemoteKeysByNeoId(last.id);
                 break;
 
             default: // REFRESH
-                rKey = Single.just(new RemoteKeys(0, null, null));
+                rKey = just(new RemoteKeys(0, null, null));
                 break;
         }
 
@@ -98,12 +107,12 @@ public class NeoRemoteMediator extends RxRemoteMediator<Integer, Neo> {
 
                     // if the page is null we have reached the end of our paginated data
                     if (page == null) {
-                        return Single.just(new MediatorResult.Success(true));
+                        return just(new MediatorResult.Success(true));
                     }
 
                     // load data from the network
                     return service.neoBrowse(page)
-                            .map(response -> {
+                            .map((Function<BrowseResponse, MediatorResult>) response -> {
                                 // calculating a next and prev key based on the currently loaded page
                                 boolean endOfPaginationReached = response.items.isEmpty();
                                 Integer prevKey;
@@ -127,6 +136,13 @@ public class NeoRemoteMediator extends RxRemoteMediator<Integer, Neo> {
                                 });
 
                                 return new MediatorResult.Success(endOfPaginationReached);
+                            })
+                            .onErrorResumeNext(e -> {
+                                if (e instanceof IOException || e instanceof HttpException) {
+                                    return Single.just(new MediatorResult.Error(e));
+                                }
+
+                                return Single.error(e);
                             });
                 });
     }

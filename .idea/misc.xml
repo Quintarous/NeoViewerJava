@@ -8,6 +8,8 @@
         <entry key="..\:/Mobile_Dev/NeoViewerJava/app/src/main/res/layout/app_bar_main.xml" value="0.5" />
         <entry key="..\:/Mobile_Dev/NeoViewerJava/app/src/main/res/layout/content_main.xml" value="0.33" />
         <entry key="..\:/Mobile_Dev/NeoViewerJava/app/src/main/res/layout/fragment_browse.xml" value="0.5" />
+        <entry key="..\:/Mobile_Dev/NeoViewerJava/app/src/main/res/layout/item_loadstate_status.xml" value="0.50625" />
+        <entry key="..\:/Mobile_Dev/NeoViewerJava/app/src/main/res/layout/item_neo.xml" value="0.75" />
         <entry key="..\:/Mobile_Dev/NeoViewerJava/app/src/main/res/layout/nav_header_main.xml" value="0.67" />
         <entry key="..\:/Mobile_Dev/NeoViewerJava/app/src/main/res/layout/neo_item.xml" value="0.67" />
       </map>
