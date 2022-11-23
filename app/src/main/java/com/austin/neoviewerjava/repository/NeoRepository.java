@@ -102,15 +102,24 @@ public class NeoRepository {
             public void onSuccess(@NonNull FeedResponse feedResponse) {
                 // initialize the final list we'll insert into the db
                 ArrayList<FeedNeo> processedFeedNeos = new ArrayList<>();
+
                 // process the network response into FeedNeo objects and add them to the final list
                 feedResponse.days.forEach((String day, ArrayList<FeedNeoResponse> neos) -> {
                     processedFeedNeos.addAll(processFeedData(day, neos));
                 });
+
                 // clear the db before we insert the new data into it
                 feedNeoDao.clear();
-                // insert the final list into the db
-                feedNeoDao.insert(processedFeedNeos);
+
+                // insert the final list into the db assuming it's not empty
+                if (!processedFeedNeos.isEmpty()) {
+                    feedNeoDao.insert(processedFeedNeos);
+                }
+
+                // set requestInProgress to false
                 _requestInProgress.postValue(false);
+
+                // nullify the disposable since it's already completed at this point
                 networkDisposable = null;
             }
             @Override
