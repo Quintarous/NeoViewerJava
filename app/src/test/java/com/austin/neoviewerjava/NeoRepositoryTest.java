@@ -1,9 +1,13 @@
 package com.austin.neoviewerjava;
 
 import static com.austin.neoviewerjava.TestUtil.getFeedNeoResponseList;
+import static com.austin.neoviewerjava.TestUtil.getOrAwaitValue;
 import static com.austin.neoviewerjava.Util.processFeedData;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
@@ -14,11 +18,15 @@ import com.austin.neoviewerjava.database.NeoDao;
 import com.austin.neoviewerjava.database.NeoDatabase;
 import com.austin.neoviewerjava.network.FakeNeoService;
 import com.austin.neoviewerjava.network.NeoService;
+import com.austin.neoviewerjava.repository.FeedData;
 import com.austin.neoviewerjava.repository.NeoRepository;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.internal.runners.statements.Fail;
+import org.mockito.Mockito;
+import org.mockito.internal.hamcrest.HamcrestArgumentMatcher;
 
 import java.util.ArrayList;
 
@@ -57,7 +65,7 @@ public class NeoRepositoryTest {
     }
 
     @Test
-    public void cacheFeedData_givenData_InsertsIntoDatabase() {
+    public void cacheFeedData_GivenData_InsertsIntoDatabase() {
         // telling the service to return good data
         FakeNeoService fakeService = (FakeNeoService) service;
         fakeService.returnPopulatedFeedResponse();
@@ -75,5 +83,38 @@ public class NeoRepositoryTest {
         verify(mockFeedNeoDao).insert(expected);
     }
 
-    // TODO write the rest of the repository tests
+
+    @Test
+    public void cacheFeedData_GivenEmptyData_DoesNotInsertIntoDatabase() {
+        // telling the service to return empty data
+        FakeNeoService fakeService = (FakeNeoService) service;
+        fakeService.returnEmptyFeedResponse();
+
+        // instantiating the repository
+        NeoRepository repo = new NeoRepository(mockDatabase, service);
+        // making the network request
+        repo.requestNewFeedData("start date", "end date");
+
+        verify(mockFeedNeoDao, never()).insert(any());
+    }
+
+
+    @Test
+    public void cacheFeedData_GivenError_EmitsToLiveData() {
+        // telling the service to return an error
+        FakeNeoService fakeService = (FakeNeoService) service;
+        fakeService.returnErrorFeedResponse();
+
+        // instantiating the repository
+        NeoRepository repo = new NeoRepository(mockDatabase, service);
+        // making the network request
+        repo.requestNewFeedData("start date", "end date");
+
+        try {
+            FeedData emittedValue = getOrAwaitValue(repo.feedData);
+            assert(emittedValue.getClass() == FeedData.Error.class);
+        } catch (Exception e) {
+            assert false;
+        }
+    }
 }
