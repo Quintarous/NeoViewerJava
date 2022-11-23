@@ -18,6 +18,12 @@ public class FakeNeoService implements NeoService {
         return Single.just(browseResponse);
     }
 
+    @Override
+    public Single<FeedResponse> neoFeed(String startDate, String endDate) {
+        // TODO implement neoFeed() in FakeNeoService
+        return null;
+    }
+
     // these methods configure what the fake service returns from it's neoBrowse() method
     public void throwException() {
         browseResponse = null;

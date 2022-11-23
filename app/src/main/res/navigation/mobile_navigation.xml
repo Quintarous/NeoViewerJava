@@ -9,5 +9,13 @@
         android:id="@+id/nav_browse"
         android:name="com.austin.neoviewerjava.ui.browse.BrowseFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_browse" />
+        tools:layout="@layout/fragment_browse" >
+        <action
+            android:id="@+id/action_nav_browse_to_feedFragment"
+            app:destination="@id/feed_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/feed_fragment"
+        android:name="com.austin.neoviewerjava.ui.feed.FeedFragment"
+        android:label="FeedFragment" />
 </navigation>

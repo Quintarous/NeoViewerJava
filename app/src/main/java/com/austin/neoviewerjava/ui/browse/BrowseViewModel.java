@@ -25,8 +25,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @HiltViewModel
 public class BrowseViewModel extends ViewModel {
 
-    private final NeoRepository repo;
-
     public final Flowable<PagingData<Neo>> dataFlow;
 
     @Inject
@@ -34,7 +32,6 @@ public class BrowseViewModel extends ViewModel {
     public BrowseViewModel(NeoRepository repo) {
         CoroutineScope viewModelScope = ViewModelKt.getViewModelScope(this);
 
-        this.repo = repo;
         dataFlow = PagingRx.cachedIn(repo.getPagingFlow(), viewModelScope);
     }
 }

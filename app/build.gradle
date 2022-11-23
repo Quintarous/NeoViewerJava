@@ -36,6 +36,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+    namespace 'com.austin.neoviewerjava'
 }
 
 dependencies {
@@ -49,13 +50,12 @@ dependencies {
         hilt_version = "2.41"
         swipe_refresh_version = "1.1.0"
         hamcrest_version = "2.2"
-        androidx_test_version = "1.4.0"
+        androidx_test_version = "1.5.0"
         espresso_version = "3.4.0"
         nav_version = "2.5.2"
         test_runner_version = "1.4.0"
         test_rules_version = "1.4.0"
-        mockito_version = "4.5.1"
-        mockito_kotlin_version = "4.0.0"
+        mockito_version = "4.9.0"
     }
 
     implementation 'androidx.appcompat:appcompat:1.4.2'
@@ -94,8 +94,11 @@ dependencies {
     testImplementation "androidx.test:core:$androidx_test_version"
     testImplementation "androidx.test:core-ktx:$androidx_test_version"
     testImplementation "androidx.room:room-testing:$room_version"
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
     // hamcrest
     testImplementation "org.hamcrest:hamcrest:$hamcrest_version"
+    // mockito
+    testImplementation "org.mockito:mockito-core:$mockito_version"
 
 
     // instrumented testing
@@ -119,7 +122,6 @@ dependencies {
     androidTestImplementation( "androidx.test.espresso.idling:idling-concurrent:$espresso_version")
     // mockito
     androidTestImplementation "org.mockito:mockito-core:$mockito_version"
-    androidTestImplementation "org.mockito.kotlin:mockito-kotlin:$mockito_kotlin_version"
     androidTestImplementation "org.mockito:mockito-android:$mockito_version"
     // hamcrest
     androidTestImplementation "org.hamcrest:hamcrest:$hamcrest_version"

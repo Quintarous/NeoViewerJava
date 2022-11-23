@@ -41,7 +41,7 @@ public class NeoRemoteMediatorTest {
 
 
     @After
-    public void cleanup() {
+    public void cleanup() { // resetting our fake service and in memory database to their initial states
         fakeService.throwException();
         db.clearAllTables();
         // if the disposable hasn't been disposed then dispose of it and nullify the variable

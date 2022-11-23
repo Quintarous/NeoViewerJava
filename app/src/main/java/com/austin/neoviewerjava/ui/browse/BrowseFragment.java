@@ -43,6 +43,7 @@ public class BrowseFragment extends Fragment {
     private FragmentBrowseBinding binding;
     private Disposable pagingDataDisposable;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -75,6 +76,7 @@ public class BrowseFragment extends Fragment {
                 new BrowseLoadStateAdapter(view -> adapter.retry()),
                 new BrowseLoadStateAdapter(view -> adapter.retry())
         );
+
 
 
         // setting the on click listener for the error retry button and swipe refresh gesture
@@ -148,6 +150,5 @@ public class BrowseFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         pagingDataDisposable.dispose();
-        binding = null;
     }
 }
