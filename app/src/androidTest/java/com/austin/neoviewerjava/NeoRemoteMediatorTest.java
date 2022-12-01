@@ -11,7 +11,7 @@ import androidx.test.filters.MediumTest;
 
 import com.austin.neoviewerjava.database.Neo;
 import com.austin.neoviewerjava.database.NeoDatabase;
-import com.austin.neoviewerjava.network.FakeNeoService;
+import com.austin.neoviewerjava.network.InstrumentedFakeNeoService;
 import com.austin.neoviewerjava.repository.NeoRemoteMediator;
 
 import org.junit.After;
@@ -24,14 +24,11 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.observers.TestObserver;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-
-import android.util.Log;
 
 @MediumTest
 public class NeoRemoteMediatorTest {
 
-    FakeNeoService fakeService = new FakeNeoService();
+    InstrumentedFakeNeoService fakeService = new InstrumentedFakeNeoService();
     NeoDatabase db = Room.inMemoryDatabaseBuilder(
             ApplicationProvider.getApplicationContext(), NeoDatabase.class)
             .fallbackToDestructiveMigration()

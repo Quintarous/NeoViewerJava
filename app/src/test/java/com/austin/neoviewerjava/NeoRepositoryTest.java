@@ -7,7 +7,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
@@ -16,7 +15,7 @@ import com.austin.neoviewerjava.database.FeedNeo;
 import com.austin.neoviewerjava.database.FeedNeoDao;
 import com.austin.neoviewerjava.database.NeoDao;
 import com.austin.neoviewerjava.database.NeoDatabase;
-import com.austin.neoviewerjava.network.FakeNeoService;
+import com.austin.neoviewerjava.network.LocalFakeNeoService;
 import com.austin.neoviewerjava.network.NeoService;
 import com.austin.neoviewerjava.repository.FeedData;
 import com.austin.neoviewerjava.repository.NeoRepository;
@@ -24,9 +23,6 @@ import com.austin.neoviewerjava.repository.NeoRepository;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.internal.runners.statements.Fail;
-import org.mockito.Mockito;
-import org.mockito.internal.hamcrest.HamcrestArgumentMatcher;
 
 import java.util.ArrayList;
 
@@ -39,7 +35,7 @@ public class NeoRepositoryTest {
 
 
     // instantiating our fake service and initializing our mock database
-    private final NeoService service = new FakeNeoService();
+    private final NeoService service = new LocalFakeNeoService();
     private final NeoDao mockNeoDao;
     private final FeedNeoDao mockFeedNeoDao;
     private final NeoDatabase mockDatabase;
@@ -59,7 +55,7 @@ public class NeoRepositoryTest {
     @Before
     public void setup() {
         // setting the service back to it's default state
-        FakeNeoService fakeService = (FakeNeoService) service;
+        LocalFakeNeoService fakeService = (LocalFakeNeoService) service;
         fakeService.returnErrorBrowseResponse();
         fakeService.returnErrorFeedResponse();
     }
@@ -67,7 +63,7 @@ public class NeoRepositoryTest {
     @Test
     public void cacheFeedData_GivenData_InsertsIntoDatabase() {
         // telling the service to return good data
-        FakeNeoService fakeService = (FakeNeoService) service;
+        LocalFakeNeoService fakeService = (LocalFakeNeoService) service;
         fakeService.returnPopulatedFeedResponse();
 
         // class under test
@@ -87,7 +83,7 @@ public class NeoRepositoryTest {
     @Test
     public void cacheFeedData_GivenEmptyData_DoesNotInsertIntoDatabase() {
         // telling the service to return empty data
-        FakeNeoService fakeService = (FakeNeoService) service;
+        LocalFakeNeoService fakeService = (LocalFakeNeoService) service;
         fakeService.returnEmptyFeedResponse();
 
         // instantiating the repository
@@ -102,7 +98,7 @@ public class NeoRepositoryTest {
     @Test
     public void cacheFeedData_GivenError_EmitsToLiveData() {
         // telling the service to return an error
-        FakeNeoService fakeService = (FakeNeoService) service;
+        LocalFakeNeoService fakeService = (LocalFakeNeoService) service;
         fakeService.returnErrorFeedResponse();
 
         // instantiating the repository

@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import io.reactivex.rxjava3.core.Single;
 
-public class FakeNeoService implements NeoService {
+public class InstrumentedFakeNeoService implements NeoService {
 
     BrowseResponse browseResponse;
 
@@ -20,7 +20,6 @@ public class FakeNeoService implements NeoService {
 
     @Override
     public Single<FeedResponse> neoFeed(String startDate, String endDate) {
-        // TODO implement neoFeed() in FakeNeoService
         return null;
     }
 

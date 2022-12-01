@@ -9,7 +9,7 @@ import java.util.Map;
 
 import io.reactivex.rxjava3.core.Single;
 
-public class FakeNeoService implements NeoService {
+public class LocalFakeNeoService implements NeoService {
 
     // browseResponse determines what will be returned by neoBrowse()
     private BrowseResponse browseResponse = null;
@@ -22,7 +22,7 @@ public class FakeNeoService implements NeoService {
     private final FeedResponse emptyFeedResponse;
 
 
-    public FakeNeoService() {
+    public LocalFakeNeoService() {
         // instantiating the populated and empty BrowseResponse objects
         this.populatedBrowseResponse = new BrowseResponse(
                 new PageStats(2, 2, 1, 1),
